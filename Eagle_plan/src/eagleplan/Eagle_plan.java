@@ -3,31 +3,22 @@ package eagleplan;
 import eagleplan.course_enums.Course;
 
 import java.util.ArrayList;
-
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Eagle_plan {
 	
-	private ArrayList<Course> semester_1;
-	private ArrayList<Course> semester_2;
-	private ArrayList<Course> semester_3;
-	private ArrayList<Course> semester_4;
-	private ArrayList<Course> semester_5;
-	private ArrayList<Course> semester_6;
-	private ArrayList<Course> semester_7;
-	private ArrayList<Course> semester_8;
+	private ArrayList<Course> semester;
+	private int semnumber;
+	private int numcourses;
+	private double credits;
 	
-	public Eagle_plan() {
-		
-		semester_1 = new ArrayList<Course>();
-		semester_2 = new ArrayList<Course>();
-		semester_3 = new ArrayList<Course>();
-		semester_4 = new ArrayList<Course>();
-		semester_5 = new ArrayList<Course>();
-		semester_6 = new ArrayList<Course>();
-		semester_7 = new ArrayList<Course>();
-		semester_8 = new ArrayList<Course>();
-		
+	
+	public Eagle_plan(int semnumber, int numcourses, double credits) {
+		semester = new ArrayList<Course>();
+		this.semnumber = semnumber;
+		this.numcourses = numcourses;
+		this.credits = credits;
 	}
 
 	
@@ -52,62 +43,67 @@ public static Course getComporg() {
 }*/
 
 
-public Course selector() {
+//Selector allows user to choose a course and return that course
+public void selector(ArrayList<Course> fillsem) {
 	Scanner ask_course = new Scanner(System.in);  // Create a Scanner object
 	System.out.println("Choose from these courses: ");
 	for (Course i: Course.values()) {
 		System.out.println(i);
 	}
-	
-	while(true) {
 		try {
 			String c = ask_course.next();
-			System.out.println("Selected course: " + Course.valueOf(c));
 			Course c1 = Course.valueOf(c);
-			return c1;
+			System.out.println("Selected course: " + c1);
+			switch (c1) {
+			case CS1:
+				fillsem.add(Course.CS1);
+				break;
+			case CS2:
+				fillsem.add(Course.CS2);
+				break;
+			case LOGIC:
+				fillsem.add(Course.LOGIC);
+				break;
+			case COMPORG:
+				fillsem.add(Course.COMPORG);
+				break;
+			}
+			ask_course.close();
 		}
-		catch (IllegalArgumentException error) {
-			System.out.println("  Error: " + error);
+		catch (IllegalArgumentException err) {
+			System.out.println("Error: " + err);
 		}
-	}
 }
 
 
 	public static void main(String[] args) {
-		Eagle_plan plan1 = new Eagle_plan();
-		System.out.println(plan1.selector());
-			
+		Scanner semnum = new Scanner(System.in);
+		System.out.println("Which semester would you like to plan out? ");
+		int sn = semnum.nextInt();
 		
-		/*Course class1 = getCS1();
-		Course class2 = getCS2();
-		plan1.semester_1.add(class1);
-		plan1.semester_2.add(class2);
-		System.out.println(plan1.semester_1);
-		System.out.println(plan1.semester_2);*/
+		Scanner coursenum = new Scanner(System.in);
+		System.out.println("How many courses would you like to add to this semester? ");
+		int cn = coursenum.nextInt();
 		
+		Scanner creditnum = new Scanner(System.in);
+		System.out.println("How many credits would you like to take this semester? ");
+		double crn = creditnum.nextDouble();
 		
-		// TODO Auto-generated method stub
+		Eagle_plan plan = new Eagle_plan(sn, cn, crn);
+		//loop for selector method 
+		Scanner run = new Scanner(System.in); 
+		System.out.println("Type 'start' to choose courses or type 'quit'.");
+		while (run.nextLine().equals("start")) {
+			plan.selector(plan.semester);
+		}
+
+		System.out.println(plan.semester);
+		semnum.close();
+		coursenum.close();
+		creditnum.close();
+		run.close();
+		// TODO: stop loop when it hits course and/or credit limit
 		
-		
-		//USE SWITCH CASE BUT c = User input
-		//see if user input can input enum
-		
-		/*Course c = Course.CS2;
-		
-		switch (c) {
-		case CS1:
-			System.out.println("CS1");
-			break;
-		case CS2:
-			System.out.println("CS2");
-			break;
-		case LOGIC:
-			System.out.println("Logic & Computation");
-			break;
-		case COMPORG:
-			System.out.println("Computer organization");
-			break;
-		}*/
 
 	}
 
